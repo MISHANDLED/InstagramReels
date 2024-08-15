@@ -32,10 +32,12 @@ class VideoPlayerCell: UITableViewCell {
         return image
     }()
     
-    private let playerLayer = AVPlayerLayer()
-    var player: AVPlayer?
-    
-    
+    private lazy var videoPlayerView: VideoPlayerView = {
+        let view = VideoPlayerView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+        
     static var identifier: String {
         return String(describing: Self.self)
     }
@@ -56,10 +58,7 @@ class VideoPlayerCell: UITableViewCell {
     // MARK: prepareForReuse
     override func prepareForReuse() {
         super.prepareForReuse()
-        
-        player?.pause()
-        player?.replaceCurrentItem(with: nil)
-        player = nil
+        videoPlayerView.resetPlayer()
     }
     
     // MARK: setupViews
@@ -67,9 +66,7 @@ class VideoPlayerCell: UITableViewCell {
         contentView.addSubview(containerView)
         containerView.addSubview(titleImage)
         containerView.addSubview(playIcon)
-        
-        containerView.layer.addSublayer(playerLayer)
-        playerLayer.videoGravity = .resizeAspectFill
+        containerView.addSubview(videoPlayerView)
     }
     
     
@@ -85,9 +82,13 @@ class VideoPlayerCell: UITableViewCell {
         
         playIcon.snp.makeConstraints { make in
             make.center.equalToSuperview()
+            make.height.equalTo(120)
+            make.width.equalTo(playIcon.snp.height)
         }
         
-        playerLayer.frame = containerView.bounds
+        videoPlayerView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
     }
     
     override func layoutSubviews() {
@@ -98,18 +99,73 @@ class VideoPlayerCell: UITableViewCell {
     
     // MARK: configure
     func configure(player: AVPlayer) {
-        self.player?.currentItem?.asset.cancelLoading()
-        self.player?.replaceCurrentItem(with: nil)
-        
+        videoPlayerView.configure(with: player)
+        toggleVideoPlayer(isShow: true)
+    }
+    
+    func configure(with image: URL) {
+        titleImage.sd_setImage(with: image)
+        toggleVideoPlayer(isShow: false)
+    }
+    
+    func pause() {
+        videoPlayerView.pause()
+    }
+    
+    func play() {
+        videoPlayerView.play()
+    }
+    
+    private func toggleVideoPlayer(isShow: Bool) {
+        videoPlayerView.isHidden = !isShow
+        titleImage.isHidden = isShow
+        playIcon.isHidden = isShow
+    }
+}
+
+
+class VideoPlayerView: UIView {
+    private let playerLayer = AVPlayerLayer()
+    var player: AVPlayer? {
+        didSet {
+            playerLayer.player = player
+        }
+    }
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupPlayerLayer()
+    }
+
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        setupPlayerLayer()
+    }
+
+    private func setupPlayerLayer() {
+        layer.addSublayer(playerLayer)
+        playerLayer.videoGravity = .resizeAspect
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        playerLayer.frame = bounds
+    }
+
+    func configure(with player: AVPlayer) {
         self.player = player
-        playerLayer.player = player
+    }
+    
+    func play() {
+        player?.play()
     }
     
     func pause() {
         player?.pause()
     }
     
-    func play() {
-        player?.play()
+    func resetPlayer() {
+        player?.pause()
+        player = nil
     }
 }

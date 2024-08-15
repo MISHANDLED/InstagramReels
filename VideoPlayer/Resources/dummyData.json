@@ -1,0 +1,28 @@
+{
+    "videos": [
+        {
+            "url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+            "thumbnail": "https://images.pexels.com/photos/3348748/pexels-photo-3348748.jpeg"
+        },
+        {
+            "url": "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",
+            "thumbnail": "https://images.pexels.com/photos/3812944/pexels-photo-3812944.jpeg"
+        },
+        {
+            "url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+            "thumbnail": "https://images.pexels.com/photos/2100063/pexels-photo-2100063.jpeg"
+        },
+        {
+            "url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+            "thumbnail": "https://images.pexels.com/photos/3228213/pexels-photo-3228213.jpeg"
+        },
+        {
+            "url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
+            "thumbnail": "https://images.pexels.com/photos/1385472/pexels-photo-1385472.jpeg"
+        },
+        {
+            "url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
+            "thumbnail": "https://images.pexels.com/photos/4725133/pexels-photo-4725133.jpeg"
+        }
+    ]
+}

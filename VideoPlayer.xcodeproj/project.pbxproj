@@ -19,6 +19,8 @@
 		E529F4242C6DD7A600E1EA00 /* ResourceLoaderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E529F4232C6DD7A600E1EA00 /* ResourceLoaderDelegate.swift */; };
 		E529F4262C6DD86B00E1EA00 /* VideoCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = E529F4252C6DD86B00E1EA00 /* VideoCache.swift */; };
 		E529F4282C6E277C00E1EA00 /* LRUCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = E529F4272C6E277C00E1EA00 /* LRUCache.swift */; };
+		E529F42F2C6E744D00E1EA00 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = E529F42E2C6E744D00E1EA00 /* Model.swift */; };
+		E529F4302C6E7D5A00E1EA00 /* dummyData.json in Resources */ = {isa = PBXBuildFile; fileRef = E529F4292C6E6E8400E1EA00 /* dummyData.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +36,8 @@
 		E529F4232C6DD7A600E1EA00 /* ResourceLoaderDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceLoaderDelegate.swift; sourceTree = "<group>"; };
 		E529F4252C6DD86B00E1EA00 /* VideoCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCache.swift; sourceTree = "<group>"; };
 		E529F4272C6E277C00E1EA00 /* LRUCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LRUCache.swift; sourceTree = "<group>"; };
+		E529F4292C6E6E8400E1EA00 /* dummyData.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = dummyData.json; sourceTree = "<group>"; };
+		E529F42E2C6E744D00E1EA00 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,19 +72,53 @@
 		E529F3FE2C6D134D00E1EA00 /* VideoPlayer */ = {
 			isa = PBXGroup;
 			children = (
-				E529F3FF2C6D134D00E1EA00 /* AppDelegate.swift */,
-				E529F4012C6D134D00E1EA00 /* SceneDelegate.swift */,
-				E529F4032C6D134D00E1EA00 /* ViewController.swift */,
-				E529F4052C6D134D00E1EA00 /* Main.storyboard */,
-				E529F4082C6D134F00E1EA00 /* Assets.xcassets */,
-				E529F40A2C6D134F00E1EA00 /* LaunchScreen.storyboard */,
 				E529F40D2C6D134F00E1EA00 /* Info.plist */,
-				E529F4142C6D13CA00E1EA00 /* VideoPlayerCell.swift */,
+				E529F42D2C6E6F2D00E1EA00 /* Screen */,
+				E529F42A2C6E6ED900E1EA00 /* Logic */,
+				E529F42C2C6E6F0300E1EA00 /* Main */,
+				E529F42B2C6E6EF100E1EA00 /* Resources */,
+			);
+			path = VideoPlayer;
+			sourceTree = "<group>";
+		};
+		E529F42A2C6E6ED900E1EA00 /* Logic */ = {
+			isa = PBXGroup;
+			children = (
 				E529F4232C6DD7A600E1EA00 /* ResourceLoaderDelegate.swift */,
 				E529F4252C6DD86B00E1EA00 /* VideoCache.swift */,
 				E529F4272C6E277C00E1EA00 /* LRUCache.swift */,
 			);
-			path = VideoPlayer;
+			path = Logic;
+			sourceTree = "<group>";
+		};
+		E529F42B2C6E6EF100E1EA00 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				E529F4292C6E6E8400E1EA00 /* dummyData.json */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		E529F42C2C6E6F0300E1EA00 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				E529F40A2C6D134F00E1EA00 /* LaunchScreen.storyboard */,
+				E529F3FF2C6D134D00E1EA00 /* AppDelegate.swift */,
+				E529F4012C6D134D00E1EA00 /* SceneDelegate.swift */,
+				E529F4082C6D134F00E1EA00 /* Assets.xcassets */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		E529F42D2C6E6F2D00E1EA00 /* Screen */ = {
+			isa = PBXGroup;
+			children = (
+				E529F4032C6D134D00E1EA00 /* ViewController.swift */,
+				E529F4142C6D13CA00E1EA00 /* VideoPlayerCell.swift */,
+				E529F4052C6D134D00E1EA00 /* Main.storyboard */,
+				E529F42E2C6E744D00E1EA00 /* Model.swift */,
+			);
+			path = Screen;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -149,6 +187,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E529F4302C6E7D5A00E1EA00 /* dummyData.json in Resources */,
 				E529F4092C6D134F00E1EA00 /* Assets.xcassets in Resources */,
 				E529F40C2C6D134F00E1EA00 /* Base in Resources */,
 				E529F4072C6D134D00E1EA00 /* Base in Resources */,
@@ -169,6 +208,7 @@
 				E529F4282C6E277C00E1EA00 /* LRUCache.swift in Sources */,
 				E529F4002C6D134D00E1EA00 /* AppDelegate.swift in Sources */,
 				E529F4022C6D134D00E1EA00 /* SceneDelegate.swift in Sources */,
+				E529F42F2C6E744D00E1EA00 /* Model.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
