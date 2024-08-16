@@ -11,12 +11,13 @@ import UIKit
 class ViewController: UIViewController {
     @IBOutlet private weak var tableView: UITableView!
     
+    private var lastVisibleIndex: Int = 0
     private var cache: VideoCache = .init()
     private var resourceLoaderDelegates: [URL: ResourceLoaderDelegate] = [:]
     private var videos: [VideoViewModel] = []
     
-    private var player: AVPlayer = AVPlayer()
-    private var currentItem: AVPlayerItem?
+    
+    private let playerManager = PlayerManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,26 +33,22 @@ class ViewController: UIViewController {
     }
     
     private func configureCell(_ cell: VideoPlayerCell, at indexPath: IndexPath) {
-        let videoURL = videos[indexPath.row].video
-        let asset = AVURLAsset(url: videoURL)
+        preparePlayersForIndex(indexPath.row)
         
-        if resourceLoaderDelegates[videoURL] == nil {
-            let delegate = ResourceLoaderDelegate(cache: cache, url: videoURL)
-            resourceLoaderDelegates[videoURL] = delegate
-            asset.resourceLoader.setDelegate(delegate, queue: .global(qos: .userInitiated))
-        }
-        
-        let playerItem = AVPlayerItem(asset: asset)
-        
-        if currentItem != playerItem {
-            player.replaceCurrentItem(with: playerItem)
-            currentItem = playerItem
-        }
-        
-        player.seek(to: .zero)
-        
+        let player = playerManager.currentPlayer()
         cell.configure(player: player)
         cell.play()
+    }
+    
+    private func preparePlayersForIndex(_ index: Int) {
+        guard index >= 0 && index < videos.count else { return }
+        
+        let prevIndex = max(0, index - 1)
+        let nextIndex = min(videos.count - 1, index + 1)
+        
+        playerManager.preparePlayer(at: -1, with: videos[prevIndex].video, cache: cache, resourceLoaderDelegates: &resourceLoaderDelegates)
+        playerManager.preparePlayer(at: 0, with: videos[index].video, cache: cache, resourceLoaderDelegates: &resourceLoaderDelegates)
+        playerManager.preparePlayer(at: 1, with: videos[nextIndex].video, cache: cache, resourceLoaderDelegates: &resourceLoaderDelegates)
     }
 }
 
@@ -72,19 +69,24 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         guard let videoCell = cell as? VideoPlayerCell else { return }
         videoCell.pause()
-//        if let player = playerDictionary[indexPath] {
-//            cache.storePlaybackTime(time: player.currentTime(), for: videos[indexPath.row].video)
-//        }
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        let visibleIndexPaths = tableView.indexPathsForVisibleRows ?? []
+        guard let indexPath = tableView.indexPathsForVisibleRows?.first,
+              let cell = tableView.cellForRow(at: indexPath) as? VideoPlayerCell else { return }
         
-        guard visibleIndexPaths.count == 1,
-              let index = visibleIndexPaths.first,
-              let cell = tableView.cellForRow(at: index) as? VideoPlayerCell else { return }
+        let currentIndex = indexPath.row
         
-        configureCell(cell, at: index)
+        if currentIndex > lastVisibleIndex {
+            // Scrolled down
+            playerManager.advanceToNext()
+        } else if currentIndex < lastVisibleIndex {
+            // Scrolled up
+            playerManager.retreatToPrevious()
+        }
+        
+        lastVisibleIndex = currentIndex
+        configureCell(cell, at: indexPath)
     }
 }
 
